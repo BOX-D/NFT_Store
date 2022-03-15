@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="scy">
+  <meta name="description" content="갤러리 상세보기 페이지">
+  <title>G_view1</title>
+
+  <!-- Buzz -->
+  <link rel="shortcut icon" type="image/x-icon" href="/core-img/favicon.ico">
+  <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+  <link href="css/boxicon.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+  <!-- amad-->
+  <link rel="stylesheet" href="css/amad/core-style.css">
+  <link rel="stylesheet" href="css/amad/style.css">
+
+  <link rel="stylesheet" href="css/custom.css">
+
+  <style>
+    .line {
+      color: #DDA94B;
+    }
+    fieldset {
+      border: solid 1px lightgray;
+      border-radius: 20px;
+      margin: 20px;
+      padding: 10px;
+    }
+    .mini{
+      min-width: 100px;
+      height: 30px;
+      line-height: 30px;
+      margin-left: 10px;
+      font-size: 10px;
+    }
+    .key{
+      border: solid lightgray 1px;
+      border-radius: 10px;
+      background-color: lightgray;
+      color: #4e555b;
+      padding: 0px 5px;
+      font-size: larger;
+    }
+  </style>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<!-- Header Section -->
+<!-- Header -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+      <img src="img/svg/bxs-dice-5.svg">
+      <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+    </a>
+    <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+      <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+          <li class="nav-item" style="
+    /* display: flex; */
+">
+            <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+          </li>
+          <li class="nav-item">
+            <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+          </li>
+        </ul>
+      </div>
+      <div class="navbar align-self-center d-flex">
+        <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+        <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+        <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+        <ul class="dropdown-menu" role="menu">
+          <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+          <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+          <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</nav><!-- Close Header -->
+
+
+<!-- Header End Here -->
+<div class="gallery_detail">
+  <div class="single_product_thumb">
+    <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner" style="margin:20px;">
+        <a th:href="@{/T_file/{gFileName}(gFileName=${gallery.gFileName})}" data-fresco-group="projects" style="width: 100%;">
+          <img th:src="@{/T_file/{gFileName}(gFileName=${gallery.gFileName})}" style="border-radius: 5px;width: 100%;">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div style="width: 80%;">
+    <div class="single_product_desc">
+      <!-- Product Meta Data -->
+      <div class="product-meta-data">
+        <div class="line"></div>
+        <img style="border:solid lightgray 1px;border-radius: 80%;width:100px;" th:src="@{/profile/{gProfile}(gProfile=${gallery.gProfile})}">
+        <a style="display: inline-block;text-decoration: none;font-size: 30px;" th:text="${gallery.gWriter}" th:href="@{/gProfile(gWriter=${gallery.gWriter})}"></a><br/>
+        <p class="avaibility" style="display: inline;" th:text="'작성일: '+${gallery.gDate}"></p>
+        <button class="btn amado-btn mini" th:if="${session.loginId eq gallery.gWriter}" th:onclick="'location.href=\''+@{/gModiform(gNo=${gallery.gNo})}+'\''">수정하기</button>
+        <button class="btn amado-btn mini" th:if="${session.loginId eq gallery.gWriter}" th:onclick="delCheck(1)">삭제하기</button>
+        <span style="float: right;"><span id="heart">♡ </span><button id="btn" class="btn amado-btn" th:text="${gallery.LikeCount}" th:onclick="glike()" style="min-width:50px;height: 50px;line-height: 50px;"></button></span><br/>
+
+        <hr class="hr_detail">
+        <input type="hidden" id="lId" th:value="${session.loginId}">    <!-- ajax를 위한 input hidden -->
+        <input type="hidden" id="lNo" th:value="${gallery.gNo}">        <!-- ajax를 위한 input hidden -->
+        <input type="hidden" id="like" th:value="${gallery.LikeCount}"> <!-- ajax를 위한 input hidden -->
+        <h3 th:text="${gallery.gName}" class="product-price" style="font-size: 30px;display: inline;"></h3>
+        <h6 style="display: inline;" th:text="'&nbsp; _'+${gallery.gMaker}"></h6><br/><br/>
+        <p class="avaibility" th:text="${gallery.gContent}"></p>
+        <a th:href="@{/gSearch(selectVal='gKey',keyword=${gallery.gKey})}"><span class="key" th:text="'# '+${gallery.gKey}"></span></a>
+
+      </div>
+
+      <!-- 댓글 부분 -->
+      <hr class="hr_detail">
+      <div class="short_overview my-5" style="border: solid lightgray 1px;border-radius: 10px;">
+        <form action="/cWrite" id="cWrite">
+          <h4 style="color: #3b2daf;"> <strong> Comments</strong></h4>
+          <fieldset>
+            <p class="avaibility">add comments</p>
+            <textarea name="cContent" rows="3" style="width:100%;"></textarea>
+            <input type="hidden" name="cWriter" th:value="${session.loginId}">
+            <input type="hidden" name="cgNo" th:value="${gallery.gNo}">
+            <!--<input type="hidden" name="cProfile" th:value="${session.loginProfile}">-->
+            <input type="button" class="btn amado-btn" value="작성" onclick="cWrite()">
+          </fieldset></form>
+        <fieldset th:each="list : ${comment}">
+          <img style="border:solid lightgray 1px;border-radius: 80%;width:60px;height:60px;" th:src="@{/profile/{cProfile}(cProfile=${list.cProfile})}">
+          <h4 style="display: inline;" th:text="${list.cWriter}"></h4>
+          <form action="/cModify">
+            <p th:id="${list.cNo}" th:text="${list.cContent}"></p>
+            <input th:id="cNo" type="hidden" th:value="${list.cNo}" name="cNo">
+            <input th:id="cgNo" type="hidden" th:value="${list.cgNo}" name="cgNo">
+          </form>
+          <button style="float:right;" class="btn amado-btn mini" th:onclick="'cModiform(\''+${list.cNo}+'\')'" th:if="${session.loginId eq list.cWriter}">댓글 수정</button>
+          <button style="float:right;" class="btn amado-btn mini" th:onclick="'delCheck(2,\''+${list.cNo}+'\')'" th:if="${session.loginId eq list.cWriter}">댓글 삭제</button>
+          <span style="float: right;" th:text="${list.cDate}"></span>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- content end -->
+
+<!-- Footer Section -->
+<footer class="footer__section">
+  <div class="container">
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+      <h3>com.nft.store</h3>
+      <p>We have created a site on the theme of non-fungible token(NFT) store.
+        This site is the output of the final project. The github address is
+        <a href="#">https://github.com</a>
+      </p>
+      <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+      <p>Copyright &copy;
+        <script>document.write(new Date().getFullYear());</script>
+        All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib</a></p>
+    </div>
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  </div>
+</footer>
+<!-- Footer Section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+  $(window).load(function () {
+    // init Isotope
+    var $projects = $('.projects').isotope({
+      itemSelector: '.project',
+      layoutMode: 'fitRows'
+    });
+    $(".filter-btn").click(function () {
+      var data_filter = $(this).attr("data-filter");
+      $projects.isotope({
+        filter: data_filter
+      });
+      $(".filter-btn").removeClass("active");
+      $(".filter-btn").removeClass("shadow");
+      $(this).addClass("active");
+      $(this).addClass("shadow");
+      return false;
+    });
+  });
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- amad !!!!! -->
+
+<script src="js/amad/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/amad/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="js/amad/plugins.js"></script>
+<!-- Active js -->
+<script src="js/amad/active.js"></script>
+
+<a id="scrollUp" href="#top" style="background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+<a id="scrollUp" th:href="@{/bList(bId=${session.loginId})}" style="background-color:white;position:fixed;z-index:2147483647;display:block;bottom:120px;right:60px;" th:if="${session.loginId ne null}"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-message-edit.svg"></a>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+  let lId = document.getElementById("lId").value;
+  let lNo = document.getElementById("lNo").value;
+  let iLike = false;
+  let heart = document.getElementById("heart");
+  $.ajax({
+    type : "GET",
+    url : "/iLike",
+    data : { "lId" : lId, "lNo" : lNo },
+    async : false,
+    dataType : "text",
+    success : function (data){
+      if(data=="o"){
+        heart.innerHTML = "♥  ";
+        iLike = true;
+      } else{
+        heart.innerHTML = "♡ ";
+        iLike = false;
+      }
+    }, error : function(){
+      alert("함수 통신 실패!");
+    }
+  });
+  function delCheck(gc,cNo){
+    if(gc == 1){
+      var conf = confirm("글을 삭제하시겠습니까?");
+      if(conf){
+        location.href="/gDelete?gNo="+lNo;
+      } else{
+        alert("삭제가 취소됐습니다.");
+      }
+    } else {
+      var conf = confirm("댓글을 삭제하시겠습니까?");
+      if(conf){
+        location.href="/cDelete?cNo="+cNo+"&cgNo="+lNo;
+      } else{
+        alert("삭제가 취소됐습니다.");
+      }
+    }
+  }
+  function glike(){
+    console.log(lId);
+    if(lId == ""){
+      alert("로그인 후 이용해주세요!");
+      location.href="/M_loginForm";
+    } else{
+      let like = parseInt(document.getElementById("like").value);
+      location.href="/gLike?lId="+lId+"&lNo="+lNo+"&iLike="+iLike;
+    }
+  }
+
+  function cWrite(){
+    console.log(lId);
+    if(lId == ""){
+      alert("로그인 후 이용해주세요!");
+      location.href="/M_loginForm";
+    } else{
+      document.getElementById("cWrite").submit();
+    }
+  }
+
+  function cModiform(cNo){
+    console.log(lId);
+    let input = document.getElementById(cNo);
+    console.log(cNo);
+    console.log(input);
+    input.innerHTML = "<input type='text' name='cContent' placeholder='"+input.innerHTML
+            +"'><input class='btn amado-btn mini' type='submit' value='댓글수정'>";
+  }
+</script>
+</html>

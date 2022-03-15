@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="/css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <style>
+        .line {
+            color: #DDA94B;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+<!-- Header Section end -->
+<div style="width: 100%; min-width: 600px; background: url('img/core-img/배경 1.png'); background-size: 100% 100%; background-position: center; display: flex; flex-direction: row; flex-wrap: wrap; height: 45px;">
+    <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark"
+            style="margin-top: 5px; margin-left: 100px; display: flex!important; flex-direction: row; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-top: 5px; margin-right: 25%; margin-left: 18%;">
+                <a class="blue_Photo" href="aList?aCate=photo"
+                   style="font-size: 14px; color: white">Photo</a>
+            </li>
+            <li class="nav-item" style="margin-right: 20%; margin-top: 5px;">
+                <a class="sky_liu" href="aList?aCate=illust"
+                   style="font-size: 14px; color: #6054BC">Illustration</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Header End Here -->
+
+<!-- main content start -->
+<div class="single-product-area section-padding-100 clearfix section-padding-lr40">
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <div class="single_product_thumb">
+                <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" style="justify-content: center;">
+                        <a class="fresco" th:href="@{/A_file/{APRODUCT}(APRODUCT=${aPay.APRODUCT})}" data-fresco-group="projects">
+                            <img th:src="@{/A_file/{APRODUCT}(APRODUCT=${aPay.APRODUCT})}" alt="" style="border-radius: 5px; width:500px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5">
+            <div class="single_product_desc">
+                <!-- Product Meta Data -->
+                <div class="product-meta-data">
+                    <div class="line"></div>
+                    <h3 style=" padding-top: 20px" th:text="${aPay.ANAME}"></h3><h3>작가 : <span th:text="${aPay.AMAKER}"></span></h3>
+                    <hr class=" hr_detail">
+                    <div style="display: flex; justify-content: space-between;">
+                        <p class="product-price" style="font-size: 30px;">
+                            시작가 : $ <span th:text="${aView.APRICE}"></span>
+                            <br/>
+                            낙찰가 : $ <span th:text="${aPay1.APPRICE}"></span>
+                            <br/>
+                            구매자 : <span th:text="${aPay1.MNICK}"></span>
+                            </p>
+
+                    </div>
+                </div>
+                <hr class="hr_detail">
+                <div class="short_overview my-5">
+                    <p th:text="${aView.ADETAIL}"></p>
+                </div>
+                <a th:if="${session.loginId eq aPay1.APID && aPay.ASTATE == 2}" onclick="aPay()"
+                   id="aPaBu">
+                    <button class="btn amado-btn">결제</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<input type="hidden" th:value="${aPay.ACODE}" id="ACODE">
+<input type="hidden" th:value="${aPay1.APID}" id="APID">
+<input type="hidden" th:value="${session.loginId}" id="loginId">
+<input type="hidden" th:value="${aView.ASTART}" id="ASTARTTIME">
+<input type="hidden" th:value="${aView.AEND}" id="AENDTIME">
+<!-- content end -->
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- amad !!!!! -->
+
+<script src="js/amad/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/amad/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="js/amad/plugins.js"></script>
+<!-- Active js -->
+<script src="js/amad/active.js"></script>
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script>
+    function aPay(){
+        let APCODE = document.getElementById("ACODE").value;
+        let loginId = document.getElementById("loginId").value;
+        let APID = document.getElementById("APID").value;
+
+        if(loginId != APID){
+            alert("낙찰받은 사용자가 아닙니다.")
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "aPay",
+                async: false,
+                data: {
+                    "APCODE": APCODE,
+                    "APID" : loginId
+                },
+                dataType: "text",
+                success: function (data) {
+                    if (data < 0){
+                        alert("결제 실패 : 잔액 부족");
+                    } else {
+                        alert("결제에 성공하였습니다!");
+                        location.href = "aList?filter=9";
+                    }
+
+                },
+                error: function () {
+                    alert("낙찰 ajax 오류");
+                }
+            });
+        }
+    }
+
+</script>
+</html>

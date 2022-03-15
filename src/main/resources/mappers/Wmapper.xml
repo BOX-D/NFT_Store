@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nft.store.dao.WDAO">
+
+    <update id="payment" parameterType="String">
+        UPDATE MEMBER SET MWALLET= MWALLET + #{price} WHERE MID=#{mId}
+    </update>
+
+    <insert id="confirm" parameterType="String">
+        INSERT INTO WALLET VALUES(#{mId}, #{price}, SYSDATE)
+    </insert>
+
+    <select id="wList" parameterType="String" resultType="wallet">
+        SELECT * FROM WALLET WHERE WID=#{wId}
+    </select>
+</mapper>

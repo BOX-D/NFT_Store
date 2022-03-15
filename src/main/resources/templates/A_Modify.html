@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="/css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <style>
+        .line {
+            color: #DDA94B;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+<!-- Header Section end -->
+<div style="width: 100%; min-width: 600px; background: url('img/core-img/배경 1.png'); background-size: 100% 100%; background-position: center; display: flex; flex-direction: row; flex-wrap: wrap; height: 45px;">
+    <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark"
+            style="margin-top: 5px; margin-left: 100px; display: flex!important; flex-direction: row; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-top: 5px; margin-right: 25%; margin-left: 18%;">
+                <a class="blue_Photo" href="aList?aCate=photo"
+                   style="font-size: 14px; color: white">Photo</a>
+            </li>
+            <li class="nav-item" style="margin-right: 20%; margin-top: 5px;">
+                <a class="sky_liu" href="aList?aCate=illust"
+                   style="font-size: 14px; color: #6054BC">Illustration</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Header End Here -->
+
+<!-- main content-->
+<div class="T_regi_main">
+    <div class="T_regi_content">
+        <form name="aModiForm" action="aModify" method="POST">
+            <table style="display: flex; flex-direction: column;">
+                <caption>상품 수정 (수정시 작품,시간은 변경할수 없습니다.) </caption>
+
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">카테고리</th>
+                    <td>
+                        <select name="ACATEGORY" class="T_regi_sel">
+                            <option value="photo">photo</option>
+                            <option value="illust">illust</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">작품 이름</th>
+                    <td><input type="text" class="T_regi_txt" name="ANAME" id="ANAME" th:placeholder="${aModi.ANAME}"></td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">작가</th>
+                    <td>&nbsp;&nbsp;<span th:text="${session.loginNick}"></span></td>
+                    <input type="hidden" th:name="AMAKER" th:value="${session.loginNick}">
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">작품 가격</th>
+                    <td>&nbsp;&nbsp;$<input type="number" class="T_regi_txt" name="APRICE" id="APRICE" th:placeholder="${aModi.APRICE}" min="0"></td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">작품 </th>
+                    <td>&nbsp;<img th:src="@{/A_file/{APRODUCT}(APRODUCT=${aModi.APRODUCT})}"></td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">작품 설명</th>
+                    <td><textarea class="T_regi_txta" rows="15" cols="70" name="ADETAIL" th:placeholder="${aModi.ADETAIL}"></textarea></td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">경매 시작 시간</th>
+                    <td><span th:text="${aModi.ASTART}"></span>
+                    </td>
+                    <input type="hidden" name="ASTART" id="startTime" th:value="${aModi.ASTART}">
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">경매 마감 시간</th>
+                    <td><span th:text="${aModi.AEND}"></span>
+                    </td>
+                </tr>
+                <tr class="T_regi_tr">
+                    <th class="T_regi_th">키워드</th>
+                    <td><textarea class="T_regi_txta" rows="10" cols="70" name="AKEY" id="AKEY" placeholder="Please enter a keyword to be used when searching."></textarea></td>
+                </tr>
+                <tr style="display: flex; justify-content: center;">
+                    <td colspan="2"><input type="button" class="T_regi_bt" onclick="ProductRegist()" value="작품 수정"></td>
+                </tr>
+                <input type="hidden" name="ACODE" th:value="${aModi.ACODE}">
+            </table>
+        </form>
+    </div>
+</div>
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- amad !!!!! -->
+
+<script src="js/amad/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/amad/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="js/amad/plugins.js"></script>
+<!-- Active js -->
+<script src="js/amad/active.js"></script>
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+</body>
+<script src="js/app.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function ProductRegist() {
+        let now = new Date();
+        let starttime = new Date(document.getElementById("startTime").value);
+
+        let nt = now.getTime();
+        let st = starttime.getTime();
+
+        if (nt < st) {
+            sec = parseInt(st - nt) / 1000;
+            min = parseInt(sec / 60);
+            if (min < 60) {
+                alert("경매 시작 시간 1시간 이전에는 수정할 수 없습니다.")
+            } else {
+                aModiForm.submit();
+            }
+        } else {
+            alert("경매 시작 후에는 수정할 수 없습니다. ")
+        }
+
+    }
+</script>
+</html>

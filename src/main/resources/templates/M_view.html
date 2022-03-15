@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+
+<!-- Main_Content Start here -->
+
+<div class="join_form" style="height: 93%;">
+    <!-- container -->
+    <div class="join_container" id="container" role="main" >
+        <div id="content" >
+            <!-- tg-text=title -->
+            <div class="M_view">
+                <table style="display: flex; flex-direction: column;">
+                    <caption>회원 정보</caption>
+                    <div class="join_row join_profile" id="proDiv">
+                        <h3 class="join_title"><label>프로필</label></h3>
+
+                        <div class="int_mobile_area">
+						<span class="ps_box int_mobile">
+							<img th:src="@{/profile/{mProfileName}(mProfileName=${member.mProfileName})}"
+                                 width="200px"/>
+						</span>
+                        </div>
+                    </div>
+                    <!-- 아이디, 비밀번호 -->
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">아이디</th>
+                        <td class="M_view_td">
+                        <span class="ps_box int_id">
+							<span th:text="${member.mId}"/>
+                        </span>
+                            <span class="error_next_box" id="idMsg" style="display:none" aria-live="assertive"></span>
+                        </td>
+                    </tr>
+
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">이름</th>
+                        <td class="M_view_td">                        <span class="ps_box box_right_space">
+							<span th:text="${member.mName}"/>
+						</span>
+                            <span class="error_next_box" id="nameMsg" style="display:none" aria-live="assertive"></span>
+                        </td>
+                    </tr>
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">닉네임</th>
+                        <td class="M_view_td">
+                            <span class="ps_box box_right_space">
+							<span th:text="${member.mNick}"/>
+						</span>
+                            <span class="error_next_box" id="nickMsg" style="display:none" aria-live="assertive"></span>
+                        </td>
+                    </tr>
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">생년월일</th>
+                        <td class="M_view_td">
+                            <div class="bir_wrap" style="display: flex">
+                                <span th:text="${member.Yy}+'년 '"/>
+                                <span th:text="${member.Mm}+'월 '"/>
+                                <span th:text="${member.Dd}+'일'"/>
+                            </div>
+                            <span class="error_next_box" id="birthdayMsg" style="display:none"
+                                  aria-live="assertive"></span></td>
+                    </tr>
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">휴대전화</th>
+                        <td class="M_view_td">
+                            <div class="int_mobile_area">
+						<span class="ps_box int_mobile">
+							<span th:text="${member.mPhone}"/>
+						</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="T_regi_tr">
+                        <th class="T_regi_th">지갑</th>
+                        <td class="M_view_td">
+                            <div class="int_mobile_area">
+						<span class="ps_box int_mobile">
+                            <span th:text="'잔액 : $'+${member.mWallet}"/></span>
+                                <div>
+                                    <input type="hidden" id="mId" th:value="${member.mId}">
+                                    <input type="hidden" id="mName" th:value="${member.mName}">
+                                    <input type="hidden" id="mPhone" th:value="${member.mPhone}">
+                                    <input type="text" id="amount">
+                                    <button class="M_view_bt" onclick="requestPay()">결제하기</button>
+                                    <a class="M_view_bt M_view_ch" th:href="@{W_list(wId=${member.mId})}">결제 내역 확인</a>
+                                </div>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${session.loginState == 1}" class="T_regi_tr">
+                        <th class="T_regi_th">회원 상태</th>
+
+                        <td class="M_view_td">
+                            <div class="int_mobile_area">
+                                <span class="ps_box int_mobile">
+                                    <span th:if="${member.mState == 1}">관리자</span>
+                                    <span th:if="${member.mState == 2}">활성화</span>
+                                    <span th:if="${member.mState == 3}">비활성화</span>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="M_view_last">
+                    <td th:if="${session.loginId eq member.mId || session.loginState == 1}"><a class="M_view_bt"
+                                                                                               th:text="수정"
+                                                                                               th:href="@{M_modiForm(mId=${member.mId})}"></a>
+                    </td>
+                    <td th:if="${session.loginId eq member.mId || session.loginState == 1}"><a class="M_view_bt"
+                                                                                               th:text="삭제"
+                                                                                               th:href="@{M_delete(mId=${member.mId},mState=${session.loginState})}"></a>
+                    </td>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- tg-display=>{"보호자 모바일 인증": [], "오류 메시지": []} -->
+<!-- // container -->
+<!-- main end -->
+
+
+<!-- Footer Section -->
+<footer class="footer__section" >
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+
+    // 아이디 중복체크
+    function idOverlap() {
+        let idCheck = document.getElementById("mId").value;
+        let confirmId = document.getElementById("confirmId");
+        let idPass = false;
+
+        $.ajax({
+            type: "GET",
+            url: "A_idoverlap",
+            data: {"mId": idCheck},
+            async: false,
+            dataType: "text",
+            success: function (data) {
+                // 성공시
+                if (data == "OK") {
+                    confirmId.style.color = "#0000ff";
+                    confirmId.innerHTML = "사용 가능한 아이디";
+                    idPass = true;
+                } else {
+                    confirmId.style.color = "#ff0000";
+                    confirmId.innerHTML = "사용 불가능한 아이디";
+                    idPass = false;
+                }
+            },
+            error: function () {
+                // 실패시
+                alert("idOverlap함수 통신실패!");
+            }
+        });
+
+        return idPass;
+    }
+
+    // 닉네임 중복체크
+    function NickOverlap() {
+        let NickCheck = document.getElementById("mNick").value;
+        let confirmNick = document.getElementById("confirmNick");
+        let NickPass = false;
+
+        $.ajax({
+            type: "GET",
+            url: "A_Nickoverlap",
+            data: {"mNick": NickCheck},
+            async: false,
+            dataType: "text",
+            success: function (data) {
+                // 성공시
+                if (data == "OK") {
+                    confirmNick.style.color = "#0000ff";
+                    confirmNick.innerHTML = "사용 가능한 닉네임";
+                    NickPass = true;
+                } else {
+                    confirmNick.style.color = "#ff0000";
+                    confirmNick.innerHTML = "사용 불가능한 닉네임";
+                    NickPass = false;
+                }
+            },
+            error: function () {
+                // 실패시
+                alert("NickOverlap함수 통신실패!");
+            }
+        });
+
+        return NickPass;
+    }
+
+    // 비밀번호 정규식
+    function pwRegExp() {
+        let MPw = document.getElementById("mPw").value;
+        let pwRegExp = document.getElementById("pwRegExp");
+        let pwPass = false;
+
+        let num = MPw.search(/[0-9]/g);
+        let eng = MPw.search(/[a-z]/ig);
+        let spe = MPw.search(/[`~!@#$%^&*|\\\'\";:\/?]/gi);
+
+        if (MPw.length < 8 || MPw.length > 15) {
+            pwRegExp.style.color = "#ff0000";
+            pwRegExp.innerHTML = "8자리 ~ 15자리 이내로 입력해주세요!";
+        } else if (MPw.search(/\s/) != -1) {
+            pwRegExp.style.color = "#ff0000";
+            pwRegExp.innerHTML = "비밀번호는 공백 없이 입력해주세요!";
+        } else if (num < 0 || eng < 0 || spe < 0) {
+            pwRegExp.style.color = "#ff0000";
+            pwRegExp.innerHTML = "영문, 숫자, 특수문자를 혼합하여 입력해주세요";
+        } else {
+            pwRegExp.style.color = "#0000ff";
+            pwRegExp.innerHTML = "적절한 비밀번호 입니다!";
+            pwPass = true;
+        }
+        return pwPass;
+    }
+
+
+    // 회원가입 버튼
+    function mJoin1() {
+        console.log("아이디 체크 : " + idOverlap());
+        console.log("비밀번호 체크1 : " + pwRegExp());
+
+        if (!idOverlap()) {
+            alert("아이디 중복체크를 진행해주세요.");
+        } else if (!pwRegExp()) {
+            alert("비밀번호를 규칙에 맞게 입력해주세요.");
+        } else if (!NickOverlap()) {
+            alert("닉네임 중복체크를 진행해주세요.")
+        } else {
+            M_join.submit();
+        }
+
+    }
+</script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script>
+
+    var IMP = window.IMP; // 생략 가능
+    IMP.init("imp45586200");
+
+    function requestPay() {
+        let price = document.getElementById("amount").value;
+        let mId = document.getElementById("mId").value;
+        let mName = document.getElementById("mName").value;
+        let mPhone = document.getElementById("mPhone").value;
+
+
+        // IMP.request_pay(param, callback) 결제창 호출
+        IMP.request_pay({ // param
+            pg: "kakaopay",
+            pay_method: "kakaopay",
+            merchant_uid: "merchant_" + new Date().getTime(),
+            name: "NFT 결제",
+            amount: price,
+            buyer_name: mName,
+            buyer_tel: mPhone,
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                $.ajax({
+                    type: "GET",
+                    url: "W_payment",
+                    data: {
+                        "mId": mId,
+                        price: price
+                    },
+                    async: false,
+                    dataType: "text",
+                    success: function (data) {
+                        // 성공시
+                        if (data == "y") {
+                            alert("결제 성공");
+                            location.href = "M_view?mId=" + mId;
+                        } else {
+                            alert("결제 오류");
+                        }
+                    },
+                    error: function (a, b, c) {
+                    }
+                });
+
+            } else {
+                // 결제 실패 시 로직,
+                alert('결제실패');
+            }
+
+        });
+
+    }
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- amad !!!!! -->
+
+<script src="js/amad/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/amad/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="js/amad/plugins.js"></script>
+<!-- Active js -->
+<script src="js/amad/active.js"></script>
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+
+
+</body>
+</html>

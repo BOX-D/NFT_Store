@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nft.store.dao.MDAO">
+
+    <insert id="mJoin" parameterType="member">
+        INSERT INTO MEMBER VALUES(#{mId}, #{mPw}, #{mName}, #{mNick}, #{mPhone} ,#{mBirth}, 0, 2, #{mProfileName})
+    </insert>
+
+    <select id="mLogin" parameterType="member" resultType="member">
+        SELECT * FROM MEMBER WHERE MID=#{mId}
+    </select>
+
+    <select id="mListCount" resultType="int" >
+        SELECT COUNT(*) FROM MEMBER
+    </select>
+
+    <select id="mList" parameterType="paging" resultType="member">
+        SELECT * FROM MLIST WHERE RN BETWEEN #{startRow} AND #{endRow}
+    </select>
+
+    <select id="mView" parameterType="String" resultType="member">
+        SELECT * FROM MEMBER WHERE MID=#{mId}
+    </select>
+
+    <update id="mModify" parameterType="member">
+        UPDATE MEMBER SET MPW=#{mPw}, MNAME=#{mName}, MNICK=#{mNick}, MPHONE=#{mPhone}, MBIRTH=#{mBirth},
+        MSTATE=#{mState}, MPROFILENAME=#{mProfileName} WHERE MID=#{mId}
+    </update>
+
+    <update id="mDelete" parameterType="String">
+        UPDATE MEMBER SET MSTATE=3 WHERE MID=#{mId}
+    </update>
+
+    <select id="mState" parameterType="member" resultType="int">
+        SELECT MSTATE FROM MEMBER WHERE MID=#{mId}
+    </select>
+
+    <select id="idoverlap" parameterType="String" resultType="String">
+        SELECT MID FROM MEMBER WHERE MID=#{mId}
+    </select>
+
+    <select id="Nickoverlap" parameterType="String" resultType="String">
+        SELECT MID FROM MEMBER WHERE MNICK=#{mNick}
+    </select>
+
+    <select id="mFindId" parameterType="String" resultType="String">
+        SELECT MID FROM MEMBER WHERE MNAME=#{mName} AND MBIRTH=#{mBirth}
+    </select>
+
+    <select id="mFindPw" parameterType="String" resultType="String">
+        SELECT MPW FROM MEMBER WHERE MID=#{mId} AND MNAME=#{mName} AND MBIRTH=#{mBirth}
+    </select>
+
+    <update id="ChangePw" parameterType="String">
+        UPDATE MEMBER SET MPW=#{mPw} WHERE MID=#{mId}
+    </update>
+
+    <select id="aList" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND (SYSDATE>ASTART) AND (AEND>SYSDATE) AND 2 > ASTATE
+        ORDER BY (AEND-SYSDATE) ASC
+    </select>
+
+    <select id="tList" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICk = MT.TMAKER AND TSTATE = 1 ORDER BY TCODE DESC
+    </select>
+</mapper>

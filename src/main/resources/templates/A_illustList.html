@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="/css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <style>
+        .line {
+            color: #DDA94B;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+<!-- Header Section end -->
+<div style="width: 100%; min-width: 600px; background: url('img/core-img/배경 1.png'); background-size: 100% 100%; background-position: center; display: flex; flex-direction: row; flex-wrap: wrap; height: 45px;">
+    <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark"
+            style="margin-top: 5px; margin-left: 100px; display: flex!important; flex-direction: row; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-top: 5px; margin-right: 25%; margin-left: 18%;">
+                <a class="blue_Photo" href="aList?aCate=photo"
+                   style="font-size: 14px; color: white">Photo</a>
+            </li>
+            <li class="nav-item" style="margin-right: 20%; margin-top: 5px;">
+                <a class="sky_liu" href="aList?aCate=illust"
+                   style="font-size: 14px; color: #6054BC">Illustration</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Header End Here -->
+<div class="search-content">
+    <div>
+        <button class="M_write" onclick="aRegiForm()">작품등록</button>
+        <input type="hidden" th:value="${session.loginId}" id="loginId">
+    </div>
+    <div class="select_box_deco">
+        <form action="aSearch" method="get" class="select_action">
+            <div class="select_box">
+                <select class="select_sort" name="filter">
+                    <option value="1">최신순</option>
+                    <option value="2">과거순</option>
+                    <option value="3">높은 가격순</option>
+                    <option value="4">낮은 가격순</option>
+                    <option value="5">인기 많은순</option>
+                    <option value="6">인기 적은순</option>
+                    <option value="7">시작 순</option>
+                    <option value="8">마감 순</option>
+                    <option value="9">결제 대기</option>
+                </select>
+            </div>
+            <input type="search" name="AKEY" class="search_m" placeholder="Type your keyword...">
+            <input type="hidden" value="illust" name="aCate">
+            <button type="submit" style="background-color: #FFFFFF; border: 0; "><img
+                    src="img/svg/bx-search-alt.svg"
+                    alt=""></button>
+        </form>
+    </div>
+</div>
+<div class="sector_M"></div>
+
+<!-- Main_Content Start here -->
+<div class="main_content_A">
+    <div class="main_list_M">
+        <div>
+            <div class="main_product_M">
+                <div class="main_box_M" th:each="list, i : ${aList}">
+                    <a class="Time_B" th:href="@{aView(ACODE=${list.ACODE})}" th:id="Tbox+${i.index}">
+                            <span class="sec7-text-box">
+                                 <span th:id="time-title+${i.index}"></span>
+                                    <span th:id="time+${i.index}">
+                                    <span th:id="days+${i.index}"></span>
+                                    <span th:id="dcol+${i.index}">d</span>
+                                    <span th:id="hours+${i.index}"></span>
+                                    <span th:id="hcol+${i.index}">h</span>
+                                    <span th:id="minutes+${i.index}"></span>
+                                    <span th:id="mcol+${i.index}">m</span>
+                            </span>
+                    </a>
+                    <input type="hidden" th:value="${list.ASTART}" th:name="ASTARTTIME">
+                    <input type="hidden" th:value="${list.AEND}" th:name="AENDTIME">
+                    <input type="hidden" th:value="${list.ACODE}" th:name="ACODE">
+
+                    <div class="main_box_detail_M">
+                        <div class="main_box_card_M">
+                            <a th:href="@{aView(ACODE=${list.ACODE})}">
+                                <img class="main_box_img_M"
+                                     th:src="@{/A_file/{APRODUCT}(APRODUCT=${list.APRODUCT})}" alt="">
+                            </a>
+                        </div>
+                        <div class="main_box_tag_M">
+                            <a th:href="@{aView(ACODE=${list.ACODE})}" style="margin-right: 10px; font-size: 20px;">
+                                <span th:text="${list.ANAME}"></span>
+                            </a>
+                            <div style="margin-right: 10px;">
+                                <a th:href="@{aView(ACODE=${list.ACODE})}">
+                                    <img class="main_box_profile_M" th:src="@{/profile/{MPROFILENAME}(MPROFILENAME=${list.MPROFILENAME})}" alt="">
+                                    <span th:text="${list.AMAKER}"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main_Content End here -->
+
+
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script>
+    function remaindTime() {
+        var now = new Date();
+        /* 년 월 일 시 분 초*/
+        var size = document.getElementsByName("ASTARTTIME").length;
+        var astart = document.getElementsByName("ASTARTTIME");
+        var aend = document.getElementsByName("AENDTIME");
+        var i;
+
+        for (i = 0; i < size; i++) {
+            astart = new Date(document.getElementsByName("ASTARTTIME")[i].value);
+            aend = new Date(document.getElementsByName("AENDTIME")[i].value);
+            var nt = now.getTime();
+            var st = astart.getTime();
+            var et = aend.getTime();
+
+
+            if (nt < st) {
+                $('#time' + i + '').fadeIn();
+                sec = parseInt(st - nt) / 1000;
+                day = parseInt(sec / 60 / 60 / 24);
+                sec = (sec - (day * 60 * 60 * 24));
+                hour = parseInt(sec / 60 / 60);
+                sec = (sec - (hour * 60 * 60));
+                min = parseInt(sec / 60);
+                sec = parseInt(sec - (min * 60));
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                if (sec < 10) {
+                    sec = "0" + sec;
+                }
+                $('#days' + i + '').html(day);
+                if (day <= 0) {
+                    $('#days' + i + '').hide();
+                    $('#dcol' + i + '').hide();
+                }
+
+                $('#hours' + i + '').html(hour);
+                if (hour <= 0) {
+                    $('#hours' + i + '').hide();
+                    $('#hcol' + i + '').hide();
+                }
+                $('#minutes' + i + '').html(min);
+            } else if (nt > et) {
+                $('#time-title' + i + '').html("경매 마감");
+                $('#time' + i + '').fadeOut();
+            } else {
+                $('#time' + i + '').fadeIn();
+                $('#Tbox' + i + '').attr('class','Time_A')
+                sec = parseInt(et - nt) / 1000;
+                day = parseInt(sec / 60 / 60 / 24);
+                sec = (sec - (day * 60 * 60 * 24));
+                hour = parseInt(sec / 60 / 60);
+                sec = (sec - (hour * 60 * 60));
+                min = parseInt(sec / 60);
+                sec = parseInt(sec - (min * 60));
+                if (hour < 10) {
+                    hour = "0" + hour;
+                }
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                if (sec < 10) {
+                    sec = "0" + sec;
+                }
+                $('#days' + i + '').html(day);
+                if (day <= 0) {
+                    $('#days' + i + '').hide();
+                    $('#dcol' + i + '').hide();
+                }
+
+                $('#hours' + i + '').html(hour);
+                if (hour <= 0) {
+                    $('#hours' + i + '').hide();
+                    $('#hcol' + i + '').hide();
+                }
+
+                $('#minutes' + i + '').html(min);
+
+            }
+        }
+    }
+
+    setInterval(remaindTime, 1000);
+
+    function aRegiForm(){
+        let loginId = document.getElementById("loginId").value;
+        if(loginId == ""){
+            alert("작품을 등록하실려면 로그인이 필요합니다.")
+        } else {
+            location.href = "aRegistForm?loginId=" + loginId ;
+        }
+
+    }
+
+</script>
+</html>

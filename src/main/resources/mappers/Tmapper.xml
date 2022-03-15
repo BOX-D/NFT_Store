@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nft.store.dao.TDAO">
+    <insert id="tregist" parameterType="market">
+        INSERT INTO MARKET VALUES(NFTM_SEQ.NEXTVAL, #{TCATEGORY}, #{TNAME}, #{TMAKER}, #{TPRODUCT},
+                                  #{TDETAIL}, #{TNUM}, #{TPRICE}, SYSDATE, #{TKEY},0,1)
+    </insert>
+
+
+    <select id="tDateASC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TCODE ASC
+    </select>
+
+    <select id="tDateDESC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TCODE DESC
+    </select>
+
+    <select id="tHeartASC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TSUMLIKE ASC
+    </select>
+
+    <select id="tHeartDESC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TSUMLIKE DESC
+    </select>
+
+    <select id="tPriceASC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TPRICE ASC
+    </select>
+
+    <select id="tPriceDESC" parameterType="String" resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TCATEGORY = #{TCATEGORY} AND TSTATE = 1 ORDER BY TPRICE DESC
+    </select>
+
+
+    <select id="tView" parameterType="int" resultType="market">
+        SELECT * FROM MARKET WHERE TCODE=#{TCODE}
+    </select>
+
+    <update id="tModify" parameterType="market">
+        UPDATE MARKET SET TCATEGORY=#{TCATEGORY}, TNAME=#{TNAME}, TPRODUCT=#{TPRODUCT},TDETAIL=#{TDETAIL},TNUM=#{TNUM}, TPRICE=#{TPRICE},TKEY=#{TKEY} WHERE TCODE=#{TCODE}
+    </update>
+
+    <update id="tDelete" parameterType="int">
+        UPDATE MARKET SET TSTATE = 3 WHERE TCODE=#{TCODE}
+    </update>
+
+    <insert id="h0Add" parameterType="market" >
+        INSERT INTO TMARKING VALUES (#{TMCODE} , #{TMID}, 0)
+    </insert>
+
+    <select id="hSearch" parameterType="market" resultType="int" >
+        SELECT SUM(TMLIKE) FROM TMARKING WHERE TMID=#{TMID} AND TMCODE=#{TMCODE}
+    </select>
+
+    <select id="tLike" parameterType="market" resultType="int" >
+        SELECT COUNT(*) FROM TMARKING WHERE TMCODE=#{TMCODE} AND TMLIKE = 1
+    </select>
+
+    <insert id="hAdd" parameterType="market" >
+        INSERT INTO TMARKING VALUES(#{TMCODE},#{TMID}, 1)
+    </insert>
+
+    <delete id="hDelete" parameterType="market" >
+        DELETE FROM TMARKING WHERE TMID=#{TMID} AND TMCODE=#{TMCODE}
+    </delete>
+
+    <select id="tBuyidcheck" parameterType="trecode" resultType="String">
+        SELECT TRID FROM TRECODE WHERE TRID =#{TRID} AND TRCODE=#{TRCODE}
+    </select>
+
+    <select id="tsnum" parameterType="int" resultType="int" >
+        SELECT COUNT(*) FROM TRECODE WHERE TRCODE=#{TRCODE}
+    </select>
+
+    <update id="tbuydone" parameterType="int">
+        UPDATE MARKET SET TSTATE = 2 WHERE TCODE=#{TRCODE}
+    </update>
+
+    <insert id="tbuyadd" parameterType="trecode" >
+        INSERT INTO TRECODE VALUES(#{TRCODE}, #{TRID}, #{TRPRICE}, #{TRDATE})
+    </insert>
+
+    <update id="tsumLike" parameterType="market">
+        UPDATE MARKET SET TSUMLIKE=#{TSUMLIKE} WHERE TCODE=#{TMCODE}
+    </update>
+
+    <select id="tSearch" parameterType="String"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%' AND TSTATE = 1 ORDER BY TCODE DESC
+    </select>
+
+    <select id="tkDateASC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TCODE ASC
+    </select>
+
+    <select id="tkDateDESC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TCODE DESC
+    </select>
+
+    <select id="tkHeartASC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TSUMLIKE ASC
+    </select>
+
+    <select id="tkHeartDESC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TSUMLIKE DESC
+    </select>
+
+    <select id="tkPriceASC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TPRICE ASC
+    </select>
+
+    <select id="tkPriceDESC" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 1 ORDER BY TPRICE DESC
+    </select>
+
+    <select id="tDone" parameterType="map"  resultType="market">
+        SELECT MT.*, M.MPROFILENAME FROM MARKET MT, MEMBER M WHERE M.MNICK = MT.TMAKER AND TKEY LIKE '%'||#{TKEY}||'%'AND TCATEGORY=#{TCATEGORY} AND TSTATE = 2 ORDER BY TPRICE ASC
+    </select>
+
+    <select id="twallet" parameterType="trecode" resultType="int">
+        SELECT MWALLET FROM MEMBER WHERE MID=#{TRID}
+    </select>
+
+    <update id="tpay" parameterType="trecode">
+        UPDATE MEMBER SET MWALLET = MWALLET - #{TRPRICE} WHERE MID = #{TRID}
+    </update>
+
+    <insert id="buyList" parameterType="market">
+        INSERT INTO BLIST VALUES(#{TCODE},#{TMAKER},#{TNAME})
+    </insert>
+</mapper>

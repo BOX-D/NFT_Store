@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+    <style>
+        body { background: #fff; }
+        .blueone {
+            border-collapse: collapse;
+        }
+        .blueone th {
+            padding: 10px;
+            color: #168;
+            border-bottom: 3px solid #168;
+            text-align: left;
+        }
+        .blueone td {
+            color: #669;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .blueone tr:hover td {
+            color: #004;
+        }
+    </style>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+
+<!-- Main_Content Start here -->
+
+<div class="join_form" style="height: 93%;">
+    <!-- container -->
+    <div class="join_container" id="container" role="main" >
+        <div id="content">
+            <!-- tg-text=title -->
+            <h2 class="blind">충전리스트</h2>
+            <div>
+                <table class="blueone" style="width:600px;">
+
+                    <tr>
+                        <th>아이디</th>
+                        <th>금액</th>
+                        <th>날짜</th>
+                    </tr>
+
+                    <tr th:each="list : ${WalletList}">
+                        <td th:text="${list.wId}">아이디</td>
+                        <td th:text="'$'+${list.wPrice}">금액</td>
+                        <td th:text="${list.wDate}">날짜</td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- tg-display=>{"보호자 모바일 인증": [], "오류 메시지": []} -->
+<!-- // container -->
+<!-- main end -->
+
+
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+<!-- Search Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+
+
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+
+
+</body>
+</html>

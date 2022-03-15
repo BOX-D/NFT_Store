@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nft.store.dao.GDAO">
+    <select id="gView" parameterType="int" resultType="gallery">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT,M.MPROFILENAME GPROFILE FROM MEMBER M, GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON L.LNO=g.gno WHERE GNO=#{gNo} AND G.GWRITER=M.MID
+    </select>
+
+    <select id="iLike" parameterType="like" resultType="String">
+        SELECT LID FROM GLIKE WHERE LNO=#{lNo} AND LID=#{lId}
+    </select>
+
+    <select id="gComments" parameterType="int" resultType="comment">
+        SELECT C.*,M.MPROFILENAME CPROFILE FROM CLIST C, MEMBER M WHERE C.CGNO=#{gNo} AND C.CWRITER=M.MID ORDER BY CNO
+    </select>
+
+    <select id="pList" parameterType="String" resultType="gallery">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT FROM GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON G.GNO=L.LNO WHERE GWRITER=#{gWriter} ORDER BY GDATE
+    </select>
+
+    <select id="login" parameterType="member" resultType="member">
+        SELECT * FROM MEMBER WHERE MID=#{mId} AND MPW=#{mPw}
+    </select>
+
+    <insert id="gLike" parameterType="like">
+        INSERT INTO GLIKE VALUES(#{lNo},#{lId})
+    </insert>
+    <delete id="gDislike" parameterType="like">
+        DELETE FROM GLIKE WHERE LNO=#{lNo} AND LID=#{lId}
+    </delete>
+
+    <update id="gModify" parameterType="gallery">
+        UPDATE GALLERY SET GCONTENT=#{gContent}, GMAKER=#{gMaker}, GKEY=#{gKey} WHERE GNO=#{gNo}
+    </update>
+
+    <delete id="cDelete" parameterType="int">
+        DELETE FROM CLIST WHERE CGNO=#{gNo}
+    </delete>
+
+    <delete id="lDelete" parameterType="int">
+        DELETE FROM GLIKE WHERE LNO=#{gNo}
+    </delete>
+
+    <delete id="gDelete" parameterType="int">
+        DELETE FROM GALLERY WHERE GNO=#{gNo}
+    </delete>
+
+    <update id="cModify" parameterType="comment">
+        UPDATE CLIST SET CCONTENT=#{cContent}, CDATE=SYSDATE WHERE CNO=#{cNo}
+    </update>
+    <delete id="cOneDelete" parameterType="int">
+        DELETE FROM CLIST WHERE CNO=#{cNo}
+    </delete>
+
+    <insert id="cWrite" parameterType="comment">
+        INSERT INTO CLIST VALUES(#{cgNo},CNO_SEQ.NEXTVAL,#{cWriter},SYSDATE,#{cContent})
+    </insert>
+
+    <select id="popular" parameterType="String" resultType="gallery">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT FROM GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON G.GNO=L.LNO WHERE GWRITER=#{gWriter} AND ROWNUM
+        <![CDATA[ < ]]>
+        4 ORDER BY LIKECOUNT DESC
+    </select>
+
+    <insert parameterType="gallery" id="gWrite">
+        INSERT INTO GALLERY VALUES(GNO_SEQ.NEXTVAL, #{gWriter}, SYSDATE, #{gName}, #{gMaker}, #{gContent}, #{gKey}, #{gFileName})
+    </insert>
+
+    <!--  구매 목록/ 로그인되면 BID=#{bId}로 변경해야함  -->
+    <select parameterType="String" id="bList" resultType="blist">
+        SELECT B.BCODE, B.BID, M.TNAME AS BNAME, M.TPRODUCT AS BPRODUCT FROM MARKET M, BLIST B, MEMBER WHERE M.TCODE = B.BCODE AND MEMBER.MID=B.BID AND B.BID=#{bId}
+    </select>
+
+    <!--  갤러리 작성(구매 사진 선택부분)  -->
+    <select parameterType="int" id="writeForm" resultType="blist">
+        SELECT B.BCODE, B.BID, M.TNAME AS BNAME, M.TPRODUCT AS BPRODUCT FROM MARKET M, BLIST B, MEMBER WHERE M.TCODE = B.BCODE AND MEMBER.MID=B.BID AND B.BCODE=#{bCode}
+    </select>
+
+    <!--  갤러리 메인 목록  -->
+    <select id="gList" resultType="gallery">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT FROM GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON G.GNO=L.LNO ORDER BY GDATE
+    </select>
+
+    <select id="gSearch" resultType="gallery" parameterType="String">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT FROM GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON G.GNO=L.LNO WHERE ${selectVal} like '%'||#{keyword}||'%' ORDER BY GNO
+    </select>
+
+    <!-- 갤러리 top3 -->
+    <select id="top" resultType="gallery">
+        SELECT G.*,COALESCE(L.CNT,0)LIKECOUNT FROM GALLERY G LEFT OUTER JOIN (SELECT LNO,COUNT(LID)CNT FROM GLIKE GROUP BY LNO)L ON G.GNO=L.LNO WHERE ROWNUM
+    <![CDATA[ < ]]>
+    4 ORDER BY LIKECOUNT DESC
+    </select>
+</mapper>

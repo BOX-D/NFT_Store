@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <title>NFT Store</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Boto Photo Studio HTML Template">
+    <meta name="keywords" content="photo, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- fresco -->
+    <link rel="stylesheet" href="/css/fresco/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/fresco/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/fresco/slicknav.min.css"/>
+    <link rel="stylesheet" href="css/fresco/fresco.css"/>
+    <link rel="stylesheet" href="css/fresco/slick.css"/>
+    <link rel="stylesheet" href="css/fresco/style.css"/>
+
+
+    <!-- Buzz -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/core-img/favicon.ico">
+    <link href="css/buzz/bootstrap.min.css" rel="stylesheet">
+    <link href="css/boxicon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/buzz/templatemo.css">
+
+
+    <!-- amad-->
+    <link rel="stylesheet" href="css/amad/core-style.css">
+    <link rel="stylesheet" href="css/amad/style.css">
+
+
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <style>
+        .line {
+            color: #DDA94B;
+        }
+
+    </style>
+
+</head>
+<body>
+<!-- Header Section -->
+<!-- Header -->
+<nav id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" href="index" style="margin-right: 2rem;">
+            <img src="img/svg/bxs-dice-5.svg">
+            <span class="text-dark h4">NFT</span> <span class="text-primary h4" style="color:#1E4174;">Store</span>
+        </a>
+        <button style="background-color: white;" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between collapse show" id="navbar-toggler-success" style="">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark" style="
+    display: flex!important;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+">
+                    <li class="nav-item" style="
+    /* display: flex; */
+">
+                        <a class="menu_bar" href="index" style="font-size: 14px;color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="tSearch" style="font-size: 14px; color: black">Market</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="aList" style="font-size: 14px; color: black">Auction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="gList" style="font-size: 14px; color: black">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="menu_bar" href="about" style="font-size: 14px; color: black">About</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar align-self-center d-flex">
+                <a class="nav-link" href="#"><img src="img/svg/bx-bell.svg"></a>
+                <a th:if="${session.loginId eq null}" class="nav-link" href="M_loginForm"><img src="img/svg/bx-user-circle.svg"></a>
+                <a th:if="${session.loginId ne null}" class="nav-link" th:href="@{M_view(mId=${session.loginId})}"><img src="img/svg/bx-user-circle.svg"></a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><img src="img/svg/bx-cog.svg"></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:if="${session.loginId eq null}"><a class="nav-link" href="M_joinForm">회원가입</a></li>
+                    <li th:if="${session.loginState == 1}"><a class="nav-link" href="M_list">회원리스트</a></li>
+                    <li th:if="${session.loginId ne null}"><a class="nav-link" href="M_logout">로그아웃</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav><!-- Close Header -->
+<!-- Header Section end -->
+<div style="width: 100%; min-width: 600px; background: url('img/core-img/배경 1.png'); background-size: 100% 100%; background-position: center; display: flex; flex-direction: row; flex-wrap: wrap; height: 45px;">
+    <div class="flex-fill mx-xl-5 mb-2">
+        <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark"
+            style="margin-top: 5px; margin-left: 100px; display: flex!important; flex-direction: row; flex-wrap: wrap;">
+            <li class="nav-item" style="margin-top: 5px; margin-right: 25%; margin-left: 18%;">
+                <a class="blue_Photo" href="aList?aCate=photo"
+                   style="font-size: 14px; color: white">Photo</a>
+            </li>
+            <li class="nav-item" style="margin-right: 20%; margin-top: 5px;">
+                <a class="sky_liu" href="aList?aCate=illust"
+                   style="font-size: 14px; color: #6054BC">Illustration</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Header End Here -->
+
+<!-- main content start -->
+
+<div class="single-product-area section-padding-100 clearfix section-padding-lr40">
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <div class="single_product_thumb">
+                <div id="product_details_slider" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" style="justify-content: center;">
+                        <a class="fresco" th:href="@{/A_file/{APRODUCT}(APRODUCT=${aView.APRODUCT})}" data-fresco-group="projects">
+                            <img th:src="@{/A_file/{APRODUCT}(APRODUCT=${aView.APRODUCT})}" alt="" style="border-radius: 5px; width: 500px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5">
+            <div class="single_product_desc">
+                <!-- Product Meta Data -->
+                <div class="product-meta-data">
+                    <div class="line"></div>
+                        <h3 style=" padding-top: 20px" th:text="${aView.ANAME}"></h3><h3>작가 : <span th:text="${aView.AMAKER}"></span></h3>
+          <hr class=" hr_detail">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p class="product-price" style="font-size: 30px;">
+                            시작가 : $ <span th:text="${aView.APRICE}"></span>
+                                <br/>
+                            최고가 : $<span id="hiP"></span></p>
+                            <p style="font-size: 23px;"><span class="sec7-text-box">
+                            <p id="time-title"></p>
+                            <span id="time">
+                <span id="days"></span>
+                <span id="dcol">d</span>
+                <span id="hours"></span>
+                <span id="hcol">h</span>
+                <span id="minutes"></span>
+                <span id="mcol">m</span>
+            </span>
+                            </span></p>
+                        </div>
+                </div>
+                <hr class="hr_detail">
+                <div class="short_overview my-5">
+                    <p th:text="${aView.ADETAIL}"></p>
+                    <p><span th:text="${aView.AMTOTAL}" id="AMTOTAL"></span> <input type="button" value="좋아요" onclick="aMarking()"></p>
+                </div>
+
+                <a th:if="${session.loginNick eq aView.AMAKER}" th:href="@{aModiForm(ACODE=${aView.ACODE})}" id="aMoBu"
+                   style="visibility: hidden">
+                    <button class="btn amado-btn">수정</button>
+                </a>
+                <a th:if="${session.loginNick eq aView.AMAKER ||  session.loginState == 1}" onclick="aDelete()" id="aDeBu"
+                   style="visibility: hidden">
+                    <button class="btn amado-btn">삭제</button>
+                </a>
+                <a th:if="${session.loginNick ne aView.AMAKER && session.loginId ne null}" th:href="@{aBidForm(ACODE=${aView.ACODE})}"
+                   id="aBiBu" style="visibility: hidden">
+                    <button class="btn amado-btn">입찰</button>
+                </a>
+                <a th:if="${session.loginId eq aPayId && aView.ASTATE == 2}" th:href="@{aPayForm(ACODE=${aView.ACODE})}"
+                   id="aPaBu">
+                    <button class="btn amado-btn">결제</button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<input type="hidden" th:value="${aView.ASTART}" id="ASTARTTIME">
+<input type="hidden" th:value="${aView.AEND}" id="AENDTIME">
+<input type="hidden" th:value="${aView.ACODE}" id="ACODE">
+<input type="hidden" th:value="${session.loginId}" id="loginId">
+<!-- content end -->
+
+<!-- Footer Section -->
+<footer class="footer__section">
+    <div class="container">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        <div class="footer__copyright__text" style="margin: 100px;text-align: left;">
+            <h3>com.nft.store</h3>
+            <p>We have created a site on the theme of non-fungible token(NFT) store.
+                This site is the output of the final project. The github address is
+                <a href="#">https://github.com</a>
+            </p>
+            <p>4조 : 방동언, 서채연, 송의진, 오새듬, 임은진, 홍민우</p>
+            <p>Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script>
+                All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a></p>
+        </div>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+<!-- Footer Section end -->
+
+
+<!--====== Javascripts & Jquery ======-->
+<script src="js/fresco/jquery-3.2.1.min.js"></script>
+<script src="js/fresco/jquery.slicknav.min.js"></script>
+<script src="js/fresco/slick.min.js"></script>
+<script src="js/fresco/fresco.min.js"></script>
+<script src="js/fresco/main.js"></script>
+
+<!-- Buzz!!!!! Bootstrap -->
+<script src="js/buzz/bootstrap.bundle.min.js"></script>
+<!-- Load jQuery require for isotope -->
+<script src="js/buzz/jquery.min.js"></script>
+<!-- Isotope -->
+<script src="js/buzz/isotope.pkgd.js"></script>
+<!-- Page Script -->
+<script>
+    $(window).load(function () {
+        // init Isotope
+        var $projects = $('.projects').isotope({
+            itemSelector: '.project',
+            layoutMode: 'fitRows'
+        });
+        $(".filter-btn").click(function () {
+            var data_filter = $(this).attr("data-filter");
+            $projects.isotope({
+                filter: data_filter
+            });
+            $(".filter-btn").removeClass("active");
+            $(".filter-btn").removeClass("shadow");
+            $(this).addClass("active");
+            $(this).addClass("shadow");
+            return false;
+        });
+    });
+</script>
+<!-- Templatemo -->
+<script src="js/buzz/templatemo.js"></script>
+
+<!-- amad !!!!! -->
+
+<script src="js/amad/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="js/amad/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="js/amad/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="js/amad/plugins.js"></script>
+<!-- Active js -->
+<script src="js/amad/active.js"></script>
+
+<a id="scrollUp" href="#top"
+   style=" background-color: #6c5eda; position: fixed; z-index: 2147483647; display: block;"
+   class="__web-inspector-hide-shortcut__"><img src="img/svg/bxs-up-arrow.svg"></a>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script>
+    let astart = new Date(document.getElementById("ASTARTTIME").value);
+    let aend = new Date(document.getElementById("AENDTIME").value);
+
+    let st = astart.getTime()
+    let et = aend.getTime();
+
+    $(document).ready(function () {
+        var now = new Date();
+        /* Date 타입의 .getTime() 으로 Stirng -> int 로 변환할수있게 숫자(1970년1월1일 부터 지나온초)로 변경*/
+        var nt = now.getTime();
+
+        let aMoBu = document.getElementById("aMoBu");
+        let aDeBu = document.getElementById("aDeBu");
+        let aBiBu = document.getElementById("aBiBu");
+
+        if (nt < st) {
+            sec = parseInt(st - nt) / 1000;
+            min = sec / 60;
+            if (min > 60) {
+                aMoBu.style.visibility = "visible";
+                aDeBu.style.visibility = "visible";
+            }
+        } else if (et < nt) {
+            aDeBu.style.visibility = "visible";
+        } else {
+            aBiBu.style.visibility = "visible";
+        }
+    });
+
+    function remaindTime() {
+        /* 현재시간,경매시작시간,경매종료시간 가져오기*/
+        var now = new Date();
+
+        /* Date 타입의 .getTime() 으로 Stirng -> int 로 변환할수있게 숫자(1970년1월1일 부터 지나온초)로 변경*/
+        var nt = now.getTime();
+
+        if (nt < st) {
+            $("#time").fadeIn();
+            $("#time-title").html("경매 시작 까지 남은 시간");
+            sec = parseInt(st - nt) / 1000;
+            day = parseInt(sec / 60 / 60 / 24);
+            sec = (sec - (day * 60 * 60 * 24));
+            hour = parseInt(sec / 60 / 60);
+            sec = (sec - (hour * 60 * 60));
+            min = parseInt(sec / 60);
+            sec = parseInt(sec - (min * 60));
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            if (min < 10) {
+                min = "0" + min;
+            }
+            if (sec < 10) {
+                sec = "0" + sec;
+            }
+            $("#days").html(day);
+            if (day <= 0) {
+                $("#days").hide();
+                $("#dcol").hide();
+            }
+            $("#hours").html(hour);
+            if (hour <= 0) {
+                $("#hours").hide();
+                $("#hcol").hide();
+            }
+            $("#minutes").html(min);
+        } else if (nt > et) {
+            $("#time-title").html("경매 마감");
+            $("#time").fadeOut();
+        } else {
+            $("#time").fadeIn();
+            $("#time-title").html("경매 마감 까지 남은 시간");
+            sec = parseInt(et - nt) / 1000;
+            day = parseInt(sec / 60 / 60 / 24);
+            sec = (sec - (day * 60 * 60 * 24));
+            hour = parseInt(sec / 60 / 60);
+            sec = (sec - (hour * 60 * 60));
+            min = parseInt(sec / 60);
+            sec = parseInt(sec - (min * 60));
+            ;
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            if (min < 10) {
+                min = "0" + min;
+            }
+            if (sec < 10) {
+                sec = "0" + sec;
+            }
+            $("#days").html(day);
+            if (day <= 0) {
+                $("#days").fadeOut();
+                $("#dcol").fadeOut();
+            }
+            $("#hours").html(hour);
+            if (hour <= 0) {
+                $("#hours").fadeOut();
+                $("#hcol").fadeOut();
+            }
+            $("#minutes").html(min);
+        }
+    }
+
+    setInterval(remaindTime, 1000);
+
+    function aDelete() {
+        var dnow = new Date();
+        var dastart = new Date(document.getElementById("ASTARTTIME").value);
+        var daend = new Date(document.getElementById("AENDTIME").value);
+
+        var dnt = dnow.getTime();
+        var dst = dastart.getTime();
+        var det = daend.getTime();
+
+        if (dnt < dst) {
+            sec = parseInt(dst - dnt) / 1000;
+            min = parseInt(sec / 60);
+            if (min < 60) {
+                alert("경매 시작 시간 1시간 이전에는 삭제할 수 없습니다.");
+            } else {
+                aDeajax();
+            }
+        } else if (dst <= dnt && dnt < det) {
+            alert("경매 시작 이후에는 삭제할 수 없습니다.");
+        } else {
+            aDeajax();
+        }
+    }
+
+    function aDeajax() {
+        let ACODE = document.getElementById("ACODE").value;
+
+        $.ajax({
+            type: "POST",
+            url: "aDelete",
+            async: false,
+            data: {
+                "ACODE": ACODE,
+            },
+            dataType: "text",
+            success: function (data) {
+                if (data > 0) {
+                    alert("삭제 성공");
+                    location.href = "index";
+                } else {
+                    alert("삭제 오류");
+                }
+            },
+            error: function () {
+                alert("입찰 경매 ajax 오류");
+            }
+
+        });
+
+    }
+
+    function priceRenewal() {
+        let APCODE = document.getElementById("ACODE").value;
+
+        $.ajax({
+            type: "POST",
+            url: "highPrice",
+            async: false,
+            data: {
+                "APCODE": APCODE,
+            },
+            dataType: "text",
+            success: function (data) {
+                $("#hiP").replaceWith(
+                    "<span id='hiP'> " + data + "</span>"
+                );
+            },
+            error: function () {
+                alert("priceCheck ajax 오류")
+            }
+        });
+    }
+
+    setInterval(priceRenewal, 1000);
+
+    function aMarking() {
+        let AMCODE = document.getElementById("ACODE").value;
+        let AMID = document.getElementById("loginId").value;
+        if (AMID == "") {
+            alert("로그인 해주세요!")
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "aMarking",
+                async: false,
+                data: {
+                    "AMCODE": AMCODE,
+                    "AMID": AMID
+                },
+                dataType: "text",
+                success: function (data) {
+                    $("#AMTOTAL").replaceWith(
+                        "<span id='AMTOTAL'> " + data + "</span>"
+                    );
+
+                },
+                error: function () {
+                    alert("입찰 경매 ajax 오류")
+                }
+            });
+        }
+    }
+</script>
+</html>

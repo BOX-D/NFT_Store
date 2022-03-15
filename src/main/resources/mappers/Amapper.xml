@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nft.store.dao.ADAO">
+    <insert id="aSellRegist" parameterType="auction">
+        INSERT INTO AUCTION
+        VALUES (NFTACODE_SEQ.NEXTVAL, #{ACATEGORY}, #{ANAME},
+                #{AMAKER}, #{APRODUCT}, #{ADETAIL}, #{APRICE},
+                #{ASTART}, #{AEND}, #{AKEY}, 0,0)
+    </insert>
+
+    <select id="aRegiView" parameterType="auction" resultType="int">
+        SELECT ACODE FROM AUCTION WHERE ACATEGORY = #{ACATEGORY} AND AMAKER = #{AMAKER} AND APRODUCT = #{APRODUCT}
+    </select>
+
+    <select id="aCodeList" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND 2 > ASTATE
+        ORDER BY ACODE DESC
+    </select>
+
+    <select id="aCodeList2" parameterType="String" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND 2 > ASTATE
+        ORDER BY ACODE ASC
+    </select>
+
+    <select id="aView" parameterType="int" resultType="auction">
+        SELECT *
+        FROM AUCTION
+        WHERE ACODE = #{acode}
+    </select>
+
+    <insert id="apRegist" parameterType="aprice">
+        INSERT INTO APRICE
+        VALUES (#{APCODE}, #{APID}, #{APPRICE})
+    </insert>
+
+    <update id="aModify" parameterType="auction">
+        UPDATE AUCTION
+        SET ANAME=#{ANAME},
+            ACATEGORY=#{ACATEGORY},
+            APRICE=#{APRICE},
+            ADETAIL=#{ADETAIL},
+            AKEY=#{AKEY}
+        WHERE ACODE = #{ACODE}
+    </update>
+
+    <update id="aDelete" parameterType="int" >
+        UPDATE AUCTION SET ASTATE = 4 WHERE ACODE =#{acode}
+    </update>
+
+    <select id="apCount" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM APRICE
+        WHERE APCODE = #{apcode}
+    </select>
+
+    <insert id="apZero" parameterType="auction">
+        INSERT INTO APRICE
+        VALUES (#{ACODE}, #{AMAKER}, #{APRICE}, 0)
+    </insert>
+
+    <select id="highprice" parameterType="int" resultType="int">
+        SELECT MAX(APPRICE)
+        FROM APRICE
+        WHERE APCODE = #{apcode}
+    </select>
+
+    <update id="aRankUpdate" parameterType="int">
+        UPDATE APRICE
+        SET APRANK = APRANK + 1
+        WHERE APCODE = #{apcode}
+    </update>
+
+    <delete id="aZeroDel" parameterType="int">
+        DELETE
+        APRICE WHERE APCODE=
+        #{apcode}
+        AND
+        APRANK
+        =
+        1
+    </delete>
+
+    <insert id="aBid" parameterType="aprice">
+        INSERT INTO APRICE
+        VALUES (#{APCODE}, #{APID}, #{APPRICE}, 1)
+    </insert>
+
+    <select id="amCount" parameterType="amarking" resultType="int">
+        SELECT COUNT(*)
+        FROM AMARKING
+        WHERE AMCODE = #{AMCODE}
+          AND AMID = #{AMID}
+    </select>
+
+    <insert id="amAdd" parameterType="amarking">
+        INSERT INTO AMARKING
+        VALUES (#{AMCODE}, #{AMID}, 1)
+    </insert>
+
+    <delete id="amDel" parameterType="amarking">
+        DELETE
+        AMARKING WHERE AMCODE=
+        #{AMCODE}
+        AND
+        AMID
+        =
+        #{AMID}
+    </delete>
+
+    <select id="amTCount" parameterType="amarking" resultType="int">
+        SELECT COUNT(*)
+        FROM AMARKING
+        WHERE AMCODE = #{AMCODE}
+    </select>
+
+    <update id="amUpdate" parameterType="auction">
+        UPDATE AUCTION
+        SET AMTOTAL = #{AMTOTAL}
+        WHERE ACODE = #{ACODE}
+    </update>
+
+    <select id="aSearchList" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY ACODE DESC
+    </select>
+
+    <select id="aSearchList2" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY ACODE ASC
+    </select>
+
+    <select id="aSearchList3" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY APRICE DESC
+    </select>
+
+    <select id="aSearchList4" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY APRICE ASC
+    </select>
+
+    <select id="aSearchList5" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY AMTOTAL DESC
+    </select>
+
+    <select id="aSearchList6" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND 2 > ASTATE
+        ORDER BY AMTOTAL ASC
+    </select>
+
+    <select id="aSearchList7" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND (ASTART>SYSDATE) AND 2 > ASTATE
+        ORDER BY (ASTART-SYSDATE) ASC
+    </select>
+
+    <select id="aSearchList8" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%' AND (SYSDATE>ASTART) AND (AEND>SYSDATE) AND 2 > ASTATE
+        ORDER BY (AEND-SYSDATE) ASC
+    </select>
+
+    <select id="aSearchList9" parameterType="map" resultType="auction">
+        SELECT A.*,M.MPROFILENAME
+        FROM MEMBER M
+           ,AUCTION A
+        WHERE M.MNICK = A.AMAKER AND ACATEGORY = #{aCate} AND AKEY LIKE '%' || #{akey} || '%'  AND ASTATE = 2
+        ORDER BY (AEND-SYSDATE) ASC
+    </select>
+
+    <select id="aStSearch0" resultType="auction">
+        SELECT * FROM AUCTION WHERE (SYSDATE>=ASTART) AND ASTATE=0
+    </select>
+
+    <update id="aStUpdate0" parameterType="int">
+        UPDATE AUCTION SET ASTATE=1 WHERE ACODE = #{acode}
+    </update>
+
+    <select id="aStSearch1" resultType="auction">
+        SELECT * FROM AUCTION WHERE (SYSDATE>=AEND) AND ASTATE = 1
+    </select>
+
+    <update id="aStUpdate1" parameterType="int">
+        UPDATE AUCTION SET ASTATE = 2 WHERE ACODE = #{acode}
+    </update>
+
+    <select id="aSearchId" parameterType="int" resultType="String">
+        SELECT APID FROM APRICE WHERE APRANK = 1 AND APCODE = #{acode}
+    </select>
+
+    <select id="aPayForm" parameterType="int" resultType="aprice">
+        SELECT A.*,M.MNICK
+        FROM MEMBER M
+           ,APRICE A
+        WHERE M.MID = A.APID AND APCODE = #{acode} AND APRANK = 1
+    </select>
+
+    <select id="aWCount" parameterType="aprice" resultType="int">
+        SELECT MWALLET FROM MEMBER WHERE MID = #{APID}
+    </select>
+
+    <update id="aWPay" parameterType="aprice">
+        UPDATE MEMBER SET MWALLET = MWALLET - #{APPRICE} WHERE MID = #{APID}
+    </update>
+
+    <update id="aStUpdate2" parameterType="int">
+        UPDATE AUCTION SET ASTATE = 3 WHERE ACODE = #{apcode}
+    </update>
+</mapper>
